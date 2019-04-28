@@ -1,6 +1,8 @@
 package com.frankcooper.offline
 
 import org.apache.spark.SparkConf
+import org.apache.spark.mllib.recommendation.{ALS, Rating}
+import org.apache.spark.sql.SparkSession
 
 /**
   *
