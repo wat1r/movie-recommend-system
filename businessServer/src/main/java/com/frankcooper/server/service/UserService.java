@@ -1,14 +1,13 @@
 package com.frankcooper.server.service;
 
-import com.atguigu.business.model.domain.Tag;
-import com.atguigu.business.model.domain.User;
-import com.atguigu.business.model.request.LoginUserRequest;
-import com.atguigu.business.model.request.RegisterUserRequest;
-import com.atguigu.business.utils.Constant;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.frankcooper.server.model.core.User;
+import com.frankcooper.server.model.request.LoginUserRequest;
+import com.frankcooper.server.model.request.RegisterUserRequest;
+import com.frankcooper.server.utils.Constant;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
@@ -31,8 +30,9 @@ public class UserService {
     private MongoCollection<Document> userCollection;
 
     private MongoCollection<Document> getUserCollection() {
-        if (null == userCollection)
-            userCollection = mongoClient.getDatabase(Constant.MONGODB_DATABASE).getCollection(Constant.MONGODB_USER_COLLECTION);
+        if (null == userCollection) {
+            userCollection = mongoClient.getDatabase(Constant.MONGO_DATABASE).getCollection(Constant.MONGO_USER_COLLECTION);
+        }
         return userCollection;
     }
 
@@ -61,13 +61,16 @@ public class UserService {
         return user;
     }
 
+    /**
+     * documentToUser
+     *
+     * @param document
+     * @return
+     */
     private User documentToUser(Document document) {
         try {
             return objectMapper.readValue(JSON.serialize(document), User.class);
         } catch (JsonParseException e) {
-            e.printStackTrace();
-            return null;
-        } catch (JsonMappingException e) {
             e.printStackTrace();
             return null;
         } catch (IOException e) {
@@ -82,8 +85,9 @@ public class UserService {
 
     public User findByUsername(String username) {
         Document user = getUserCollection().find(new Document("username", username)).first();
-        if (null == user || user.isEmpty())
+        if (null == user || user.isEmpty()) {
             return null;
+        }
         return documentToUser(user);
     }
 
@@ -95,8 +99,9 @@ public class UserService {
 
     public User findByUID(int uid) {
         Document user = getUserCollection().find(new Document("uid", uid)).first();
-        if (null == user || user.isEmpty())
+        if (null == user || user.isEmpty()) {
             return null;
+        }
         return documentToUser(user);
     }
 

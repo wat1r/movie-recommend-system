@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Random;
 
 
-@RequestMapping("/rest/movie")
+@RequestMapping("/rest/movies")
 @Controller
 public class MovieRestApi {
 

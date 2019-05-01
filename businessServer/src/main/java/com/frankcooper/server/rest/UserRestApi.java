@@ -1,6 +1,8 @@
 package com.frankcooper.server.rest;
 
 import com.frankcooper.server.model.core.User;
+import com.frankcooper.server.model.request.LoginUserRequest;
+import com.frankcooper.server.model.request.RegisterUserRequest;
 import com.frankcooper.server.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.Arrays;
 
 /**
  * Created by FrankCooper
@@ -22,6 +26,14 @@ public class UserRestApi {
     private UserService userService;
 
 
+    /**
+     * 注册{success:true}
+     *
+     * @param username
+     * @param password
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/register", produces = "application/json", method = RequestMethod.GET)
     @ResponseBody
     public Model addUser(@RequestParam("username") String username, @RequestParam("password") String password, Model model) {

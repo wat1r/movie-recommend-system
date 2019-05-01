@@ -1,8 +1,8 @@
 package com.frankcooper.server.service;
 
-import com.atguigu.business.model.recom.Recommendation;
-import com.atguigu.business.model.request.*;
-import com.atguigu.business.utils.Constant;
+import com.frankcooper.server.model.recom.Recommendation;
+import com.frankcooper.server.model.request.MovieHybridRecommendationRequest;
+import com.frankcooper.server.utils.Constant;
 import com.mongodb.MongoClient;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
@@ -36,14 +36,14 @@ public class RecommenderService {
 
     // 协同过滤推荐【电影相似性】
     private List<Recommendation> findMovieCFRecs(int mid, int maxItems) {
-        MongoCollection<Document> movieRecsCollection = mongoClient.getDatabase(Constant.MONGODB_DATABASE).getCollection(Constant.MONGODB_MOVIE_RECS_COLLECTION);
+        MongoCollection<Document> movieRecsCollection = mongoClient.getDatabase(Constant.MONGO_DATABASE).getCollection(Constant.MONGO_MOVIE_RECS_COLLECTION);
         Document movieRecs = movieRecsCollection.find(new Document("mid", mid)).first();
         return parseRecs(movieRecs, maxItems);
     }
 
     // 协同过滤推荐【用户电影矩阵】
     private List<Recommendation> findUserCFRecs(int uid, int maxItems) {
-        MongoCollection<Document> movieRecsCollection = mongoClient.getDatabase(Constant.MONGODB_DATABASE).getCollection(Constant.MONGODB_USER_RECS_COLLECTION);
+        MongoCollection<Document> movieRecsCollection = mongoClient.getDatabase(Constant.MONGO_DATABASE).getCollection(Constant.MONGO_USER_RECS_COLLECTION);
         Document userRecs = movieRecsCollection.find(new Document("uid", uid)).first();
         return parseRecs(userRecs, maxItems);
     }
@@ -60,7 +60,7 @@ public class RecommenderService {
 
     // 实时推荐
     private List<Recommendation> findStreamRecs(int uid, int maxItems) {
-        MongoCollection<Document> streamRecsCollection = mongoClient.getDatabase(Constant.MONGODB_DATABASE).getCollection(Constant.MONGODB_STREAM_RECS_COLLECTION);
+        MongoCollection<Document> streamRecsCollection = mongoClient.getDatabase(Constant.MONGO_DATABASE).getCollection(Constant.MONGO_STREAM_RECS_COLLECTION);
         Document streamRecs = streamRecsCollection.find(new Document("uid", uid)).first();
         return parseRecs(streamRecs, maxItems);
     }
